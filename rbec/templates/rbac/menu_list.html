@@ -1,0 +1,145 @@
+{% extends 'layout.html' %}
+
+{% block css %}
+    <style>
+        .permission-area tr.root {
+            background-color: #b1d6ff;
+        }
+
+        .menu-body tr.active {
+            background-color: #f1f7fd;
+            border-left: 3px solid #fdc00f;
+        }
+
+
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div style="margin-top: 20px">
+        <div class="col-sm-3">
+            <div class="panel panel-default">
+                <div class="panel-heading"><i class="fa fa-book"></i> 菜单管理
+                    <a href="{% url 'rbec:menu_add' %}" class="btn btn-sm btn-success pull-right"
+                       style="padding: 2px 7px;margin-top: -2px"> <i
+                            class="fa fa-plus"></i> 添加</a>
+                </div>
+
+                <table class="table  table-hover">
+                    <thead>
+                    <tr>
+                        <th>名称</th>
+                        <th>图标</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="menu-body">
+                    {% for menu in all_menus %}
+                        <tr class="{% if mid == menu.id|safe %}active{% endif %}">
+
+                            <td><a href="?mid={{ menu.pk }}">{{ menu.title }}</a></td>
+                            <td><i class="fa {{ menu.icon }}"></i></td>
+                            <td>
+                                <a href="{% url 'rbec:menu_edit' menu.pk %}"> <i class="fa fa-pencil-square-o"></i> </a>
+                                <a href="{% url 'rbec:menu_del'  menu.pk %}" style="color: red"> <i
+                                        class="fa fa-trash-o"></i> </a>
+
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="panel panel-default">
+                <div class="panel-heading"><i class="fa fa-cubes"></i> 权限管理
+                    <a href="{% url 'rbec:multi_permissions' %}" class="btn btn-sm btn-primary pull-right "
+                       style="padding: 2px 7px;margin-top: -2px">批量操作</a>
+                    <a href="{% url 'rbec:permission_add' %}" class="btn btn-sm btn-success pull-right"
+                       style="padding: 2px 7px;margin-top: -2px">添加</a>
+                </div>
+                <table class="table  table-hover">
+                    <thead>
+                    <tr>
+                        <th>名称</th>
+                        <th>URL</th>
+                        <th>URL别名</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="permission-area">
+                    {% for p_permission in all_permissions.values %}
+                        <tr class="root" id="{{ p_permission.id }}">
+
+                            <td class="title">
+                                <i class="fa fa-caret-down"></i>
+                                {{ p_permission.title }}
+                            </td>
+                            <td>{{ p_permission.url }}</td>
+                            <td>{{ p_permission.name }}</td>
+                            <td>
+                                <a href="{% url 'rbec:permission_edit' p_permission.id %}"> <i
+                                        class="fa fa-pencil-square-o"></i> </a>
+                                <a href="{% url 'rbec:permission_del'%}" style="color: red"> <i
+                                        class="fa fa-trash-o"></i> </a>
+
+                            </td>
+                        </tr>
+
+                        {% for c_permission in p_permission.children %}
+                            <tr pid="{{ p_permission.id }}">
+
+                                <td>{{ c_permission.title }}</td>
+                                <td>{{ c_permission.url }}</td>
+                                <td>{{ c_permission.name }}</td>
+                                <td>
+                                    <a href=" "> <i class="fa fa-pencil-square-o"></i> </a>
+                                    <a href="" style="color: red"> <i
+                                            class="fa fa-trash-o"></i> </a>
+
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
+
+                    {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+
+
+        $('.permission-area').on('click', '.root .title', function () {
+            var caret = $(this).find('i');
+            var id = $(this).parent().attr('id');
+            if (caret.hasClass('fa-caret-right')) {
+                caret.removeClass('fa-caret-right').addClass('fa-caret-down');
+                $(this).parent().nextAll('tr[pid="' + id + '"]').removeClass('hide');
+            } else {
+                caret.removeClass('fa-caret-down').addClass('fa-caret-right');
+                $(this).parent().nextAll('tr[pid="' + id + '"]').addClass('hide');
+
+            }
+        })
+
+
+    </script>
+{% endblock %}

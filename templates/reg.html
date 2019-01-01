@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap/css/bootstrap.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <div class="row" style="margin-top: 70px">
+        <div class="col-sm-6 col-sm-offset-3">
+            <form class="form-horizontal" method="post" action="" novalidate>
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="{{ form_obj.username.id_for_label }}"
+                           class="col-sm-2 control-label">{{ form_obj.username.label }}</label>
+                    <div class="col-sm-10">
+                        {{ form_obj.username }}
+                        {{ form_obj.username.errors.0 }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form_obj.password.id_for_label }}"
+                           class="col-sm-2 control-label">{{ form_obj.password.label }}</label>
+                    <div class="col-sm-10">
+                        {{ form_obj.password }}
+                        {{ form_obj.password.errors.0 }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form_obj.re_password.id_for_label }}"
+                           class="col-sm-2 control-label">{{ form_obj.re_password.label }}</label>
+                    <div class="col-sm-10">
+                        {{ form_obj.re_password }}
+                        {{ form_obj.re_password.errors.0 }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form_obj.name.id_for_label }}"
+                           class="col-sm-2 control-label">{{ form_obj.name.label }}</label>
+                    <div class="col-sm-10">
+                        {{ form_obj.name }}
+                        {{ form_obj.name.errors.0 }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form_obj.department.id_for_label }}"
+                           class="col-sm-2 control-label">{{ form_obj.department.label }}</label>
+                    <div class="col-sm-10">
+                        {{ form_obj.department }}
+                        {{ form_obj.department.errors.0 }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">Sign in</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

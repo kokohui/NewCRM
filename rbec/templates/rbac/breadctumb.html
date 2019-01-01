@@ -1,0 +1,14 @@
+<ol class="breadcrumb no-radius no-margin" style="border-bottom: 1px solid #ddd;">
+
+                {% for li in breadcrumb_list %}
+
+        {% if forloop.last %}
+            <li class="active">{{ li.title }}</li>
+
+        {% else %}
+            <li><a href="{{ li.url }}"> {{ li.title }}</a></li>
+        {% endif %}
+
+    {% endfor %}
+
+            </ol>
